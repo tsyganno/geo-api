@@ -11,7 +11,9 @@ body {
 {% endblock %}
 
 {% block content %}
-<h1>Личный кабинет</h1>
-    <br>
+
+<h1>Вы распарсили файл с городами, можете переходить во вкладку "Геопозиция"</h1>
+<br>
+<a href="{% url 'geo:private_room' %}"><BUTTON>Геопозиция</BUTTON></a>
 
 {% endblock %}
