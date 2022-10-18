@@ -17,4 +17,4 @@ class MyLoginView(LoginView):
 
 
 class MyLogoutView(LogoutView):
-    success_url = reverse_lazy('poll:index')
+    success_url = reverse_lazy('geo:index')

@@ -16,8 +16,9 @@ body {
 
 <h4 class="text-center">Войдите, чтобы управлять</h4>
 
+
     <form method="post" class="text-center">
-    {% csrf_token %}
+        {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}">
     {{ form|crispy }}
         <br>
