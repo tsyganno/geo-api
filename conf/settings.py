@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'geo_app',
     'bootstrap4',
     'crispy_forms',
+    'osm_field',
 ]
 
 MIDDLEWARE = [

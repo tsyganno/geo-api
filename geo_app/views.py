@@ -1,4 +1,8 @@
 from dadata import Dadata
+from django.views.generic import CreateView
+
+from .forms import MyModelForm
+from .models import MyModel
 
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
@@ -8,6 +12,14 @@ from django.http import HttpResponseNotFound, HttpResponseServerError, HttpRespo
 from geo_app.models import City
 
 
+class MyCreateView(CreateView):
+    form_class = MyModelForm
+    model = MyModel
+
+    def get_success_url(self):
+        return reverse("geo:form")
+
+
 class IndexView(TemplateView):
     template_name = 'geo_app/index.html'
 
@@ -15,6 +27,12 @@ class IndexView(TemplateView):
 class PrivateRoomView(LoginRequiredMixin, TemplateView):
     login_url = 'accounts:login'
     template_name = 'geo_app/private_room.html'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     map = folium.Map(location=[37.296933, -121.9574983], zoom_start=8)
+    #     map.save("geo_app/private_room.html")
+    #     return context
 
 
 class ParsingCitiesView(LoginRequiredMixin, TemplateView):

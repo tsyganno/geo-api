@@ -1,5 +1,13 @@
 from django.db import models
 
+from osm_field.fields import LatitudeField, LongitudeField, OSMField
+
+
+class MyModel(models.Model):
+    location = OSMField(lat_field='latitude', lon_field='longitude')
+    latitude = LatitudeField()
+    longitude = LongitudeField()
+
 
 class City(models.Model):
     country = models.CharField(null=True, max_length=50, verbose_name='Страна')
