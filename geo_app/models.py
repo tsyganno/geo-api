@@ -1,30 +1,30 @@
 from django.db import models
 
 from osm_field.fields import LatitudeField, LongitudeField, OSMField
+from django_admin_geomap import GeoItem
 
 
-class MyModel(models.Model):
-    location = OSMField(lat_field='latitude', lon_field='longitude')
+class MyModel(models.Model, GeoItem):
+    location = OSMField(lat_field='latitude', lon_field='longitude', verbose_name='Локация')
     latitude = LatitudeField(verbose_name='Географическая широта')
     longitude = LongitudeField(verbose_name='Географическая долгота')
 
+    @property
+    def geomap_longitude(self):
+        return '' if self.longitude is None else str(self.longitude)
 
-class City(models.Model):
-    country = models.CharField(null=True, max_length=50, verbose_name='Страна')
-    federal_district = models.CharField(null=True, max_length=50, verbose_name='Федеральный округ')
-    region = models.CharField(null=True, max_length=50, verbose_name='Область')
-    city = models.CharField(null=True, max_length=20, verbose_name='Город')
-    street = models.CharField(null=True, max_length=50, verbose_name='Улица')
-    house = models.CharField(null=True, max_length=50, verbose_name='Номер дома')
-    block = models.CharField(null=True, max_length=50, verbose_name='Блок дома')
-    flat = models.CharField(null=True, max_length=50, verbose_name='Номер квартиры')
-    geo_lat = models.CharField(null=True, max_length=50, verbose_name='Географическая широта')
-    geo_lon = models.CharField(null=True, max_length=50, verbose_name='Географическая долгота')
+    @property
+    def geomap_latitude(self):
+        return '' if self.latitude is None else str(self.latitude)
+
+    @property
+    def geomap_icon(self):
+        return self.default_icon
 
     def __str__(self):
-        return self.city
+        return self.location
 
     class Meta:
-        verbose_name_plural = 'Города'
-        verbose_name = 'Город'
-        ordering = ['city']
+        verbose_name_plural = 'Локации'
+        verbose_name = 'Локация'
+        ordering = ['location']

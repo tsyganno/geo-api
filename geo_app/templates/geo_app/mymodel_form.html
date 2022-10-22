@@ -49,8 +49,7 @@ body {
                  aria-expanded="false">{{ user.first_name }} {{ user.last_name }}</a>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="{% url 'geo:parsing_cities' %}">Парсинг городов</a>
-                <a class="dropdown-item" href="#">Результаты</a>
-                <a class="dropdown-item" href="#">Удаление результатов</a>
+                <a class="dropdown-item" href="{% url 'geo:add_location' %}">Добавить локацию</a>
 
               <form action="{% url 'accounts:logout' %}?next=/" method="POST">
                 {% csrf_token %}
@@ -90,8 +89,9 @@ body {
     <form action="" method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <input type="submit" value="Save" />
+      <input type="submit" value="Сохранить" />
     </form>
+
 </body>
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'crispy_forms',
     'osm_field',
+    'django_admin_geomap',
 ]
 
 MIDDLEWARE = [

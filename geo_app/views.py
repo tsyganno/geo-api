@@ -9,7 +9,12 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import reverse
 from django.http import HttpResponseNotFound, HttpResponseServerError, HttpResponseRedirect
-from geo_app.models import City, MyModel
+from geo_app.models import MyModel
+from django_admin_geomap import geomap_context
+
+
+def home(request):
+    return render(request, 'geo_app/private_room.html', geomap_context(MyModel.objects.all(), auto_zoom="10"))
 
 
 class MyCreateView(LoginRequiredMixin, CreateView):
@@ -18,7 +23,7 @@ class MyCreateView(LoginRequiredMixin, CreateView):
     model = MyModel
 
     def get_success_url(self):
-        return reverse("geo:form")
+        return reverse("geo:add_location")
 
 
 class IndexView(TemplateView):
@@ -43,14 +48,11 @@ def process_parsing(request):
         for line in file:
             element = []
             array_city = line.strip().split(',')
-
             for i in range(len(array_city)):
                 if array_city[i].strip().lower() == 'город':
                     element.append(array_city[i + 1])
                 elif '.' in array_city[i] and (array_city[i].strip()[:array_city[i].find('.')] + array_city[i].strip()[array_city[i].find('.') + 1:]).isdigit():
                     element.append(array_city[i])
-            print(array_city)
-            print(element)
             if count > 0:
                 city_element = MyModel()
                 city_element.location = element[0]
@@ -72,8 +74,6 @@ def process_parsing(request):
             # city_element.save()
             count += 1
     # dadata.close()
-    print(count)
-    print(len(MyModel.objects.all()))
     return HttpResponseRedirect(reverse('geo:ending_parsing'))
 
 
