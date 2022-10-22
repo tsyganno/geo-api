@@ -5,8 +5,8 @@ from osm_field.fields import LatitudeField, LongitudeField, OSMField
 
 class MyModel(models.Model):
     location = OSMField(lat_field='latitude', lon_field='longitude')
-    latitude = LatitudeField()
-    longitude = LongitudeField()
+    latitude = LatitudeField(verbose_name='Географическая широта')
+    longitude = LongitudeField(verbose_name='Географическая долгота')
 
 
 class City(models.Model):

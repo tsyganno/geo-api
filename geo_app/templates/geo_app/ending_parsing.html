@@ -12,8 +12,16 @@ body {
 
 {% block content %}
 
-<h1>Вы распарсили файл с городами, можете переходить во вкладку "Геопозиция"</h1>
-<br>
-<a href="{% url 'geo:private_room' %}"><BUTTON>Геопозиция</BUTTON></a>
+    {% if message %}
+        <h1>{{ message }}</h1>
+        <h1>Перейдите во вкладку "ГЕОПОЗИЦИЯ" для работы.</h1>
+        <br>
+        <a href="{% url 'geo:private_room' %}"><BUTTON>Геопозиция</BUTTON></a>
+    {% else %}
 
+        <h1>Вы распарсили файл с городами, можете переходить во вкладку "Геопозиция"</h1>
+        <br>
+        <a href="{% url 'geo:private_room' %}"><BUTTON>Геопозиция</BUTTON></a>
+
+    {% endif %}
 {% endblock %}
