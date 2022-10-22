@@ -1,0 +1,24 @@
+{% extends "layout/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Поиск по названию{% endblock %}
+
+{% block css %}
+<style>
+body {
+      background-color: #F6F2E6;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Поиск по названию локации:</h1>
+<br>
+
+    <form action="{% url 'geo:found_city' %}" method="post">
+    {% csrf_token %}
+    <p>Локация <input type="text" name="location"></p>
+    <br>
+    <input type="submit" value="Поиск">
+    </form>
+
+{% endblock %}

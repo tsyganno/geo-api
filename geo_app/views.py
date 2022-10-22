@@ -1,20 +1,36 @@
 from dadata import Dadata
 from django.views.generic import CreateView
-
-from .forms import MyModelForm
-from .models import MyModel
-
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import reverse
 from django.http import HttpResponseNotFound, HttpResponseServerError, HttpResponseRedirect
-from geo_app.models import MyModel
 from django_admin_geomap import geomap_context
 
+from geo_app.models import MyModel
+from geo_app.forms import MyModelForm, LocationlForm
 
-def home(request):
-    return render(request, 'geo_app/private_room.html', geomap_context(MyModel.objects.all(), auto_zoom="10"))
+
+def found_city(request):
+    if request.method == "POST":
+        title = str(request.POST['location']).title()
+        location = MyModel.objects.filter(location=title)
+        return render(request, 'geo_app/found_city.html', geomap_context(location, auto_zoom="10"))
+    else:
+        return render(request, 'geo_app/found_city.html')
+
+
+class CitySearchView(LoginRequiredMixin, TemplateView):
+    login_url = 'accounts:login'
+    template_name = 'geo_app/city_search.html'
+
+
+class HomeView(LoginRequiredMixin, TemplateView):
+    login_url = 'accounts:login'
+    template_name = 'geo_app/private_room.html'
+
+    def get_context_data(self, **kwargs):
+        return geomap_context(MyModel.objects.all(), auto_zoom="10")
 
 
 class MyCreateView(LoginRequiredMixin, CreateView):

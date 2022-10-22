@@ -1,6 +1,6 @@
 {% extends "layout/base.html" %}
 {% load crispy_forms_tags %}
-{% block title %}Опросы{% endblock %}
+{% block title %}Окончание парсинга{% endblock %}
 
 {% block css %}
 <style>
@@ -11,10 +11,11 @@ body {
 {% endblock %}
 
 {% block content %}
+{% if user.is_authenticated %}
 
     {% if message %}
         <h1>{{ message }}</h1>
-        <h1>Перейдите во вкладку "ГЕОПОЗИЦИЯ" для работы.</h1>
+        <h1>Перейдите в нужную вам вкладку из меню сверху, справа.</h1>
         <br>
         <a href="{% url 'geo:private_room' %}"><BUTTON>Геопозиция</BUTTON></a>
     {% else %}
@@ -22,5 +23,6 @@ body {
         <br>
         <a href="{% url 'geo:private_room' %}"><BUTTON>Геопозиция</BUTTON></a>
     {% endif %}
+{% endif %}
 
 {% endblock %}

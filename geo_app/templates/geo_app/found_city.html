@@ -1,6 +1,6 @@
 {% extends "layout/base.html" %}
 {% load crispy_forms_tags %}
-{% block title %}Геопозиция всех локаций{% endblock %}
+{% block title %}Найденная локация{% endblock %}
 
 {% block css %}
 <style>
@@ -11,10 +11,10 @@ body {
 {% endblock %}
 
 {% block content %}
-<h1>Геопозиция всех городов из БД</h1>
+{% if user.is_authenticated %}
+<h1>Геопозиция локации по вашему поиску</h1>
 <br>
 <div>{% include "geomap/common.html" %}</div>
-<br>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
           integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -25,4 +25,5 @@ body {
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
           integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
           crossorigin="anonymous"></script>
+{% endif %}
 {% endblock %}
