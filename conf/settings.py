@@ -80,20 +80,20 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# POSTGRESQL_HOST = getenv('POSTGRESQL_HOST')
-# POSTGRESQL_DATABASE = getenv('POSTGRESQL_DATABASE')
-# POSTGRESQL_USER = getenv('POSTGRESQL_USER')
-# POSTGRESQL_PASSWORD = getenv('POSTGRESQL_PASSWORD')
-# POSTGRESQL_PORT = getenv('POSTGRESQL_PORT')
+POSTGRESQL_HOST = getenv('POSTGRESQL_HOST')
+POSTGRESQL_DATABASE = getenv('POSTGRESQL_DATABASE')
+POSTGRESQL_USER = getenv('POSTGRESQL_USER')
+POSTGRESQL_PASSWORD = getenv('POSTGRESQL_PASSWORD')
+POSTGRESQL_PORT = getenv('POSTGRESQL_PORT')
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'geo',
-        'USER': 'dim',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': POSTGRESQL_DATABASE,
+        'USER': POSTGRESQL_USER,
+        'PASSWORD': POSTGRESQL_PASSWORD,
+        'HOST': POSTGRESQL_HOST,
+        'PORT': POSTGRESQL_PORT,
     }
 }
 
