@@ -2,6 +2,7 @@ from dadata import Dadata
 from django.views.generic import CreateView
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.views.generic import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import reverse
 from django.http import HttpResponseNotFound, HttpResponseServerError, HttpResponseRedirect
@@ -14,7 +15,8 @@ from geo_app.forms import MyModelForm, LocationlForm
 def found_city(request):
     if request.method == "POST":
         title = str(request.POST['location']).title()
-        location = MyModel.objects.filter(location=title)
+        id_user = request.user.pk
+        location = MyModel.objects.filter(location=title, user__id=id_user)
         return render(request, 'geo_app/found_city.html', geomap_context(location, auto_zoom="10"))
     else:
         return render(request, 'geo_app/found_city.html')
@@ -30,13 +32,17 @@ class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'geo_app/private_room.html'
 
     def get_context_data(self, **kwargs):
-        return geomap_context(MyModel.objects.all(), auto_zoom="10")
+        return geomap_context(MyModel.objects.filter(user__id=self.request.user.pk), auto_zoom="10")
 
 
 class MyCreateView(LoginRequiredMixin, CreateView):
     login_url = 'accounts:login'
     form_class = MyModelForm
     model = MyModel
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(MyCreateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse("geo:add_location")
@@ -52,9 +58,13 @@ class ParsingCitiesView(LoginRequiredMixin, TemplateView):
 
 
 def process_parsing(request):
-    data = MyModel.objects.all()
+    counter = 0
+    with open('cities/city.csv', 'r', encoding='utf-8') as file:
+        for line in file:
+            counter += 1
+    data = MyModel.objects.filter(user__id=request.user.pk)
     message = 'Города из файла уже распарсены, БД заполнена.'
-    if len(data) > 0:
+    if len(data) > counter - 2:
         return render(request, 'geo_app/ending_parsing.html', {'message': message})
     count = 0
     # token = "180d4258a7350e2d2e7aa62d1c31d1f57d24575a"
@@ -74,6 +84,7 @@ def process_parsing(request):
                 city_element.location = element[0]
                 city_element.latitude = element[-2]
                 city_element.longitude = element[-1]
+                city_element.user = request.user
                 city_element.save()
 
             # result = dadata.clean("address", line.strip())
@@ -96,3 +107,24 @@ def process_parsing(request):
 class EndingParsingView(LoginRequiredMixin, TemplateView):
     login_url = 'accounts:login'
     template_name = 'geo_app/ending_parsing.html'
+
+
+class DeleteLocationView(LoginRequiredMixin, DeleteView):
+    login_url = 'accounts:login'
+    template_name = 'geo_app/delete_location.html'
+    model = MyModel
+
+    def get_queryset(self):
+        owner = self.request.user.pk
+        return self.model.objects.filter(user__id=owner)
+
+    def get_object(self, queryset=None):
+        return self.get_queryset()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['location'] = MyModel.objects.filter(user__id=self.request.user.pk)
+        return context
+
+    def get_success_url(self):
+        return reverse('geo:private_room')

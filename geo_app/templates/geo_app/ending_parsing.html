@@ -17,11 +17,11 @@ body {
         <h1>{{ message }}</h1>
         <h1>Перейдите в нужную вам вкладку из меню сверху, справа.</h1>
         <br>
-        <a href="{% url 'geo:private_room' %}"><BUTTON>Геопозиция</BUTTON></a>
+        <a href="{% url 'geo:private_room' %}"><BUTTON>Личный кабинет</BUTTON></a>
     {% else %}
-        <h1>Вы распарсили файл с городами, можете переходить во вкладку "Геопозиция"</h1>
+        <h1>Вы распарсили файл с городами, можете переходить во вкладку "Личный кабинет"</h1>
         <br>
-        <a href="{% url 'geo:private_room' %}"><BUTTON>Геопозиция</BUTTON></a>
+        <a href="{% url 'geo:private_room' %}"><BUTTON>Личный кабинет</BUTTON></a>
     {% endif %}
 {% endif %}
 
