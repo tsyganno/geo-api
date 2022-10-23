@@ -3,20 +3,24 @@
 {% block title %}Удаление локаций{% endblock %}
 
 {% block css %}
+
 <style>
 body {
       background-color: #F6F2E6;
     }
 </style>
+
 {% endblock %}
 
 {% block content %}
+
 <h1>Вы действительно хотите удалить все данные из БД? После удаления вы окажетесь в личном кабинете.</h1>
     <br>
     <form method="post">
-    {% csrf_token %}
-    {{ form|crispy  }}
-    <br>
+        {% csrf_token %}
+        {{ form|crispy  }}
+        <br>
         <input type="submit" value="Подтвердить удаление">
     </form>
+
 {% endblock %}

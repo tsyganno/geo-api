@@ -3,14 +3,17 @@
 {% block title %}Геопозиция всех локаций{% endblock %}
 
 {% block css %}
+
 <style>
 body {
       background-color: #F6F2E6;
     }
 </style>
+
 {% endblock %}
 
 {% block content %}
+
 <h1>Геопозиция всех городов из БД</h1>
 <br>
 <div>{% include "geomap/common.html" %}</div>
@@ -25,4 +28,5 @@ body {
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
           integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
           crossorigin="anonymous"></script>
+
 {% endblock %}
