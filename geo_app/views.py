@@ -23,10 +23,16 @@ def found_city_radius(request):
     if request.method == "POST":
         loc = str(request.POST['location']).title()
         id_user = request.user.pk
-        queryset = MyModel.objects.filter(location=loc, user__id=id_user)
+        queryset = MyModel.objects.filter(
+            location=loc,
+            user__id=id_user
+        )
         radius = str(request.POST['radius']).title()
         if len(queryset) > 0 and radius.isdigit():
-            coordinates = [queryset[0].latitude, queryset[0].longitude]
+            coordinates = [
+                queryset[0].latitude,
+                queryset[0].longitude
+            ]
             dist = int(radius)  # дистанция 20 км
             mylon = float(coordinates[1])  # долгота центра
             mylat = float(coordinates[0])  # широта
@@ -35,14 +41,28 @@ def found_city_radius(request):
             lat1 = mylat - (dist / 111.0)
             lat2 = mylat + (dist / 111.0)
             profiles = MyModel.objects.filter(latitude__range=(lat1, lat2)).filter(longitude__range=(lon1, lon2))
-            return render(request, 'geo_app/found_city_radius.html', geomap_context(profiles, auto_zoom="10"))
+            return render(
+                request,
+                'geo_app/found_city_radius.html',
+                geomap_context(profiles, auto_zoom="10")
+            )
         else:
             message = 'Вы ввели некорректное название локации или некорректное число. Попробуйте еще раз.'
-            data = geomap_context(queryset, auto_zoom="10")
+            data = geomap_context(
+                queryset,
+                auto_zoom="10"
+            )
             data['message'] = message
-            return render(request, 'geo_app/found_city_radius.html', data)
+            return render(
+                request,
+                'geo_app/found_city_radius.html',
+                data
+            )
     else:
-        return render(request, 'geo_app/found_city.html')
+        return render(
+            request,
+            'geo_app/found_city.html'
+        )
 
 
 def found_city(request):
@@ -50,16 +70,36 @@ def found_city(request):
     if request.method == "POST":
         title = str(request.POST['location']).title()
         id_user = request.user.pk
-        location = MyModel.objects.filter(location=title, user__id=id_user)
+        location = MyModel.objects.filter(
+            location=title,
+            user__id=id_user
+        )
         if len(location) > 0:
-            return render(request, 'geo_app/found_city.html', geomap_context(location, auto_zoom="10"))
+            return render(
+                request,
+                'geo_app/found_city.html',
+                geomap_context(
+                    location,
+                    auto_zoom="10"
+                )
+            )
         else:
             message = 'Вы ввели некорректное название локации. Попробуйте еще раз.'
-            data = geomap_context(location, auto_zoom="10")
+            data = geomap_context(
+                location,
+                auto_zoom="10"
+            )
             data['message'] = message
-            return render(request, 'geo_app/found_city.html', data)
+            return render(
+                request,
+                'geo_app/found_city.html',
+                data
+            )
     else:
-        return render(request, 'geo_app/found_city.html')
+        return render(
+            request,
+            'geo_app/found_city.html'
+        )
 
 
 class CitySearchView(LoginRequiredMixin, TemplateView):
@@ -74,7 +114,10 @@ class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'geo_app/private_room.html'
 
     def get_context_data(self, **kwargs):
-        return geomap_context(MyModel.objects.filter(user__id=self.request.user.pk), auto_zoom="10")
+        return geomap_context(
+            MyModel.objects.filter(user__id=self.request.user.pk),
+            auto_zoom="10"
+        )
 
 
 class MyCreateView(LoginRequiredMixin, CreateView):
@@ -113,7 +156,11 @@ def process_parsing(request):
     data = MyModel.objects.filter(user__id=request.user.pk)
     message = 'Города из файла уже распарсены, БД заполнена.'
     if len(data) > counter - 2:
-        return render(request, 'geo_app/ending_parsing.html', {'message': message})
+        return render(
+            request,
+            'geo_app/ending_parsing.html',
+            {'message': message}
+        )
     count = 0
     # token = "180d4258a7350e2d2e7aa62d1c31d1f57d24575a"
     # secret = "18ac391b58a8c17b578a20e753c1b79d1926915f"
