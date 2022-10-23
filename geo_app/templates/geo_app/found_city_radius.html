@@ -1,6 +1,6 @@
 {% extends "layout/base.html" %}
 {% load crispy_forms_tags %}
-{% block title %}Найденная локация{% endblock %}
+{% block title %}Найденные локации по радиусу{% endblock %}
 
 {% block css %}
 <style>
@@ -12,7 +12,7 @@ body {
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1>Геопозиция локации по вашему поиску</h1>
+<h1>Геопозиция локаций по радиусу</h1>
 <br>
 {% if message %}
   <h2>{{ message }}</h2>

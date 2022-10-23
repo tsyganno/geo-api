@@ -1,6 +1,6 @@
 from django.urls import path
 from geo_app.views import IndexView, ParsingCitiesView, process_parsing, EndingParsingView, MyCreateView, \
-    CitySearchView, HomeView, found_city, DeleteLocationView
+    CitySearchView, HomeView, found_city, DeleteLocationView, CitySearchRadiusView, found_city_radius
 
 app_name = 'geo'
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('private_room/parsing_cities/ending_parsing', EndingParsingView.as_view(), name='ending_parsing'),
     path('private_room/city_search/', CitySearchView.as_view(), name='city_search'),
     path('private_room/city_search/found_city/', found_city, name='found_city'),
-
+    path('private_room/city_search_radius/', CitySearchRadiusView.as_view(), name='city_search_radius'),
+    path('private_room/city_search_radius/found_city_radius/', found_city_radius, name='found_city_radius'),
     path('private_room/delete_location/', DeleteLocationView.as_view(), name='delete_location'),
 ]

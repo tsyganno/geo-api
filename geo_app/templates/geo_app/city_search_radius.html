@@ -1,0 +1,25 @@
+{% extends "layout/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Поиск по радиусу{% endblock %}
+
+{% block css %}
+<style>
+body {
+      background-color: #F6F2E6;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Поиск локации по радиусу:</h1>
+<br>
+
+    <form action="{% url 'geo:found_city_radius' %}" method="post">
+    {% csrf_token %}
+        <p>Город <input type="text" name="location"></p>
+        <p>Радиус, км <input type="text" name="radius"></p>
+    <br>
+    <input type="submit" value="Поиск">
+    </form>
+
+{% endblock %}

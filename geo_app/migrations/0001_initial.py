@@ -20,11 +20,29 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MyModel',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('location', osm_field.fields.OSMField(lat_field='latitude', lon_field='longitude', verbose_name='Локация')),
-                ('latitude', osm_field.fields.LatitudeField(validators=[osm_field.validators.validate_latitude], verbose_name='Географическая широта')),
-                ('longitude', osm_field.fields.LongitudeField(validators=[osm_field.validators.validate_longitude], verbose_name='Географическая долгота')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                ('id', models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')
+                 ),
+                ('location', osm_field.fields.OSMField(
+                    lat_field='latitude',
+                    lon_field='longitude',
+                    verbose_name='Локация')
+                 ),
+                ('latitude', osm_field.fields.LatitudeField(
+                    validators=[osm_field.validators.validate_latitude],
+                    verbose_name='Географическая широта')
+                 ),
+                ('longitude', osm_field.fields.LongitudeField(
+                    validators=[osm_field.validators.validate_longitude],
+                    verbose_name='Географическая долгота')
+                 ),
+                ('user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')
+                 ),
             ],
             options={
                 'verbose_name': 'Локация',
