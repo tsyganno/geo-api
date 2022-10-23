@@ -97,11 +97,15 @@ class IndexView(TemplateView):
 
 
 class ParsingCitiesView(LoginRequiredMixin, TemplateView):
+    """Страничка с предложением распарсить файл с локациями"""
     login_url = 'accounts:login'
     template_name = 'geo_app/parsing_cities.html'
 
 
 def process_parsing(request):
+    """Парсинг файла с локациями.
+    Не стал использовать сервис dadata.ru, поскольку количество запросов к нему ограничено,
+    но оставил закоментированные фрагменты кода (показать что пробовал)."""
     counter = 0
     with open('cities/city.csv', 'r', encoding='utf-8') as file:
         for line in file:
@@ -150,11 +154,13 @@ def process_parsing(request):
 
 
 class EndingParsingView(LoginRequiredMixin, TemplateView):
+    """Страничка, информирающая об успешном или неуспешном парсинге файла"""
     login_url = 'accounts:login'
     template_name = 'geo_app/ending_parsing.html'
 
 
 class DeleteLocationView(LoginRequiredMixin, DeleteView):
+    """Удаление локаций по пользователю"""
     login_url = 'accounts:login'
     template_name = 'geo_app/delete_location.html'
     model = MyModel
