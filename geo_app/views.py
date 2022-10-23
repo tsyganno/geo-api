@@ -37,7 +37,7 @@ def found_city_radius(request):
             profiles = MyModel.objects.filter(latitude__range=(lat1, lat2)).filter(longitude__range=(lon1, lon2))
             return render(request, 'geo_app/found_city_radius.html', geomap_context(profiles, auto_zoom="10"))
         else:
-            message = 'Вы ввели некорректное название локации или некорректное число.'
+            message = 'Вы ввели некорректное название локации или некорректное число. Попробуйте еще раз.'
             data = geomap_context(queryset, auto_zoom="10")
             data['message'] = message
             return render(request, 'geo_app/found_city_radius.html', data)
@@ -54,7 +54,7 @@ def found_city(request):
         if len(location) > 0:
             return render(request, 'geo_app/found_city.html', geomap_context(location, auto_zoom="10"))
         else:
-            message = 'Вы ввели некорректное название локации.'
+            message = 'Вы ввели некорректное название локации. Попробуйте еще раз.'
             data = geomap_context(location, auto_zoom="10")
             data['message'] = message
             return render(request, 'geo_app/found_city.html', data)
