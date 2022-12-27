@@ -15,6 +15,7 @@ body {
 {% block content %}
 
 <h1>Поиск по названию локации:</h1>
+
 <br>
     <form action="{% url 'geo:found_city' %}" method="post">
         {% csrf_token %}
